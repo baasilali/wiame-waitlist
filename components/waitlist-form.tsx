@@ -11,6 +11,7 @@ import { Toaster } from "@/components/ui/toaster"
 export default function WaitlistForm() {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showThankYou, setShowThankYou] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,10 +40,8 @@ export default function WaitlistForm() {
       }
 
       setEmail("")
-      toast({
-        title: "Success!",
-        description: "You've been added to our newsletter. We'll keep you updated!",
-      })
+      setShowThankYou(true)
+      setTimeout(() => setShowThankYou(false), 3000) // Hide after 3 seconds
     } catch (error) {
       toast({
         title: "Something went wrong",
@@ -68,6 +67,11 @@ export default function WaitlistForm() {
           {isSubmitting ? "Subscribing..." : "Subscribe"}
         </Button>
       </form>
+      {showThankYou && (
+        <div className="mt-4 text-center animate-in fade-in slide-in-from-top-2 duration-300">
+          <p className="text-white font-giaza text-lg">Thank you for your support! 🎉</p>
+        </div>
+      )}
       <Toaster />
     </div>
   )

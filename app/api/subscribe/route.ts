@@ -1,10 +1,17 @@
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
 
+// Helper function to format private key
+const formatPrivateKey = (key: string | undefined) => {
+  if (!key) return undefined;
+  // Handle both local and Vercel environments
+  return key.replace(/\\n/g, '\n').replace(/"/g, '');
+};
+
 const auth = new google.auth.GoogleAuth({
   credentials: {
     client_email: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    private_key: formatPrivateKey(process.env.GOOGLE_SHEETS_PRIVATE_KEY),
   },
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
